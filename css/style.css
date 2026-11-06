@@ -1,0 +1,932 @@
+/* ================================================================
+   Life Dashboard — style.css
+   AWS Builder ID Validation: Single CSS file
+   Design System: Soft Pastel Pink Theme + Dark Rose Mode
+================================================================ */
+
+/* ---------------------------------------------------------------
+   1. CSS CUSTOM PROPERTIES (Design Tokens)
+--------------------------------------------------------------- */
+:root {
+  /* Color Palette — Light Mode */
+  --bg-main:          #FDE8F4;
+  --card-bg:          #FFFFFF;
+  --card-sub:         #F9D0E7;
+  --accent-secondary: #F4B2D8;
+  --accent-primary:   #EE94C9;
+  --accent-dark:      #E476BA;
+  --text-main:        #2D232E;
+  --text-muted:       #6B5B6E;
+  --danger-color:     #FF5A5A;
+  --border-radius:    12px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(228, 118, 186, 0.10);
+  --shadow-md: 0 4px 20px rgba(228, 118, 186, 0.16);
+  --shadow-lg: 0 8px 32px rgba(228, 118, 186, 0.20);
+
+  /* Spacing */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  32px;
+
+  /* Typography */
+  --font-base:  'Segoe UI', 'Inter', system-ui, sans-serif;
+  --font-mono:  'Courier New', 'Consolas', monospace;
+
+  /* Transitions */
+  --transition: 0.25s ease;
+}
+
+/* ---------------------------------------------------------------
+   2. DARK MODE OVERRIDES (.dark-mode on <body>)
+--------------------------------------------------------------- */
+body.dark-mode {
+  --bg-main:          #2B1625;
+  --card-bg:          #3D2036;
+  --card-sub:         #4E2846;
+  --accent-secondary: #7A3860;
+  --accent-primary:   #C9579A;
+  --accent-dark:      #E476BA;
+  --text-main:        #FDE8F4;
+  --text-muted:       #C9A0BE;
+  --danger-color:     #FF7070;
+  --shadow-sm: 0 2px 8px rgba(0,0,0,0.35);
+  --shadow-md: 0 4px 20px rgba(0,0,0,0.45);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.55);
+}
+
+/* ---------------------------------------------------------------
+   3. RESET & BASE
+--------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-base);
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: background-color var(--transition), color var(--transition);
+  line-height: 1.6;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  color: var(--text-main);
+}
+
+/* ---------------------------------------------------------------
+   4. UTILITY CLASSES
+--------------------------------------------------------------- */
+.hidden {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------
+   5. HEADER
+--------------------------------------------------------------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md) var(--space-xl);
+  background-color: var(--card-bg);
+  border-bottom: 2px solid var(--accent-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: background-color var(--transition), border-color var(--transition);
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.header-logo {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.header-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: -0.3px;
+}
+
+/* Theme Toggle Button */
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--card-sub);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: background-color var(--transition), transform 0.15s ease, box-shadow var(--transition);
+}
+
+.theme-toggle-btn:hover {
+  background-color: var(--accent-secondary);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.theme-icon {
+  font-size: 1rem;
+}
+
+/* ---------------------------------------------------------------
+   6. MAIN DASHBOARD GRID
+--------------------------------------------------------------- */
+.dashboard-container {
+  max-width: 900px;
+  margin: var(--space-xl) auto;
+  padding: 0 var(--space-md);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto;
+  gap: var(--space-lg);
+}
+
+/* ---------------------------------------------------------------
+   7. CARDS — Base Styles
+--------------------------------------------------------------- */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  border: 1.5px solid var(--accent-secondary);
+  transition: background-color var(--transition), border-color var(--transition), box-shadow var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.card:hover {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Full-width card spanning both columns */
+.card-wide {
+  grid-column: 1 / -1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: -0.2px;
+}
+
+/* ---------------------------------------------------------------
+   8. GREETING & CLOCK CARD
+--------------------------------------------------------------- */
+.greeting-card {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  background: linear-gradient(135deg, var(--card-bg) 60%, var(--card-sub) 100%);
+}
+
+.greeting-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.greeting-text {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.greeting-name-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.greeting-name {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--accent-dark);
+  letter-spacing: -0.5px;
+  line-height: 1.1;
+}
+
+.edit-name-btn {
+  background: none;
+  border: none;
+  font-size: 1rem;
+  opacity: 0.6;
+  transition: opacity var(--transition), transform var(--transition);
+  padding: var(--space-xs);
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.edit-name-btn:hover {
+  opacity: 1;
+  transform: scale(1.2);
+  background-color: var(--card-sub);
+}
+
+.name-edit-form {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  flex-wrap: wrap;
+}
+
+.name-input {
+  padding: var(--space-xs) var(--space-sm);
+  border: 1.5px solid var(--accent-primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+  width: 180px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.name-input:focus {
+  border-color: var(--accent-dark);
+  box-shadow: 0 0 0 3px rgba(228, 118, 186, 0.20);
+}
+
+/* Clock */
+.clock-section {
+  text-align: right;
+}
+
+.digital-clock {
+  font-family: var(--font-mono);
+  font-size: 2.6rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-shadow: 0 2px 8px rgba(228, 118, 186, 0.25);
+}
+
+.date-display {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: var(--space-xs);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------
+   9. FOCUS TIMER CARD
+--------------------------------------------------------------- */
+.focus-timer-card {
+  align-items: center;
+  text-align: center;
+}
+
+/* Preset buttons */
+.timer-presets {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.preset-btn {
+  padding: var(--space-xs) var(--space-md);
+  background-color: var(--card-sub);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-main);
+  transition: background-color var(--transition), border-color var(--transition), transform 0.1s ease;
+}
+
+.preset-btn:hover,
+.preset-btn.active {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-dark);
+  color: var(--card-bg);
+}
+
+.preset-btn.active {
+  font-weight: 700;
+}
+
+.custom-duration-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.custom-duration-input {
+  width: 62px;
+  padding: var(--space-xs) var(--space-sm);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  text-align: center;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color var(--transition);
+}
+
+.custom-duration-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(238, 148, 201, 0.18);
+}
+
+/* Remove number arrows */
+.custom-duration-input::-webkit-outer-spin-button,
+.custom-duration-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.custom-duration-label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+/* Timer display */
+.timer-display-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-lg) 0;
+}
+
+.timer-display {
+  font-family: var(--font-mono);
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: var(--accent-dark);
+  letter-spacing: 4px;
+  line-height: 1;
+  text-shadow: 0 2px 12px rgba(228, 118, 186, 0.30);
+  transition: color var(--transition);
+}
+
+.timer-status {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+/* Timer controls */
+.timer-controls {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* Timer done banner */
+.timer-done-banner {
+  background-color: var(--card-sub);
+  border: 1.5px solid var(--accent-primary);
+  border-radius: var(--border-radius);
+  padding: var(--space-sm) var(--space-md);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  text-align: center;
+  animation: pulse-banner 1.5s ease-in-out infinite;
+  width: 100%;
+}
+
+@keyframes pulse-banner {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.75; transform: scale(0.98); }
+}
+
+/* ---------------------------------------------------------------
+   10. SHARED BUTTON STYLES
+--------------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: background-color var(--transition), transform 0.1s ease, box-shadow var(--transition), opacity var(--transition);
+  border: none;
+  white-space: nowrap;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background-color: var(--accent-primary);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--accent-dark);
+  box-shadow: 0 3px 10px rgba(228, 118, 186, 0.35);
+}
+
+.btn-secondary {
+  background-color: var(--card-sub);
+  color: var(--text-main);
+  border: 1.5px solid var(--accent-secondary);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: var(--accent-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-sm {
+  padding: 5px 12px;
+  font-size: 0.8rem;
+}
+
+.btn-danger {
+  background-color: transparent;
+  color: var(--danger-color);
+  border: 1.5px solid var(--danger-color);
+  padding: 4px 10px;
+  font-size: 0.78rem;
+}
+
+.btn-danger:hover {
+  background-color: var(--danger-color);
+  color: #fff;
+}
+
+.btn-icon {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  border-radius: 6px;
+  transition: background-color var(--transition);
+}
+
+.btn-icon:hover {
+  background-color: var(--card-sub);
+}
+
+/* ---------------------------------------------------------------
+   11. TO-DO LIST CARD
+--------------------------------------------------------------- */
+.todo-card {
+  /* stretches to fill its grid cell */
+}
+
+/* Add task input row */
+.todo-input-row {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.todo-input {
+  flex: 1;
+  padding: 9px var(--space-md);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.todo-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.todo-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(238, 148, 201, 0.18);
+}
+
+/* Sort controls */
+.sort-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.sort-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.sort-select {
+  padding: 4px 8px;
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition);
+}
+
+.sort-select:focus {
+  border-color: var(--accent-primary);
+}
+
+/* Task list container */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+/* Scrollbar styling */
+.task-list::-webkit-scrollbar {
+  width: 5px;
+}
+.task-list::-webkit-scrollbar-track {
+  background: var(--card-sub);
+  border-radius: 4px;
+}
+.task-list::-webkit-scrollbar-thumb {
+  background: var(--accent-secondary);
+  border-radius: 4px;
+}
+.task-list::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-primary);
+}
+
+/* Task item */
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background-color: var(--card-sub);
+  border-radius: 10px;
+  padding: var(--space-sm) var(--space-md);
+  border: 1.5px solid transparent;
+  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+  animation: slide-in 0.2s ease;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.task-item:hover {
+  border-color: var(--accent-secondary);
+  box-shadow: var(--shadow-sm);
+}
+
+.task-item.completed {
+  opacity: 0.65;
+}
+
+/* Checkbox */
+.task-checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-dark);
+  cursor: pointer;
+}
+
+/* Task text */
+.task-text {
+  flex: 1;
+  font-size: 0.9rem;
+  color: var(--text-main);
+  word-break: break-word;
+  transition: color var(--transition);
+}
+
+.task-item.completed .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Inline edit input */
+.task-edit-input {
+  flex: 1;
+  padding: 4px 8px;
+  border: 1.5px solid var(--accent-primary);
+  border-radius: 6px;
+  font-size: 0.88rem;
+  background-color: var(--card-bg);
+  color: var(--text-main);
+  outline: none;
+}
+
+/* Task action buttons */
+.task-actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  padding: var(--space-md) 0;
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------------
+   12. QUICK LINKS CARD
+--------------------------------------------------------------- */
+.links-input-row {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.link-input {
+  flex: 1;
+  min-width: 110px;
+  padding: 9px var(--space-md);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.link-input::placeholder {
+  color: var(--text-muted);
+  opacity: 0.8;
+}
+
+.link-input:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(238, 148, 201, 0.18);
+}
+
+/* Badges container */
+.links-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  min-height: 40px;
+}
+
+/* Individual link badge */
+.link-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background-color: var(--card-sub);
+  border: 1.5px solid var(--accent-secondary);
+  border-radius: 999px;
+  padding: 5px 14px 5px 14px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-dark);
+  text-decoration: none;
+  transition: background-color var(--transition), border-color var(--transition), box-shadow var(--transition), transform 0.1s ease;
+  animation: slide-in 0.2s ease;
+  max-width: 220px;
+}
+
+.link-badge:hover {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-dark);
+  color: #fff;
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-1px);
+}
+
+.link-badge-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-badge-delete {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  font-size: 0.75rem;
+  line-height: 1;
+  color: inherit;
+  opacity: 0.6;
+  padding: 1px 2px;
+  border-radius: 50%;
+  transition: opacity var(--transition), background-color var(--transition);
+}
+
+.link-badge-delete:hover {
+  opacity: 1;
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------------------------------------------------------------
+   13. TOAST NOTIFICATION
+--------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: var(--space-xl);
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background-color: var(--text-main);
+  color: var(--card-bg);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  white-space: nowrap;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  max-width: calc(100vw - 2 * var(--space-xl));
+  text-align: center;
+}
+
+.toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.toast-warning {
+  background-color: #D97706;
+}
+
+.toast.toast-error {
+  background-color: var(--danger-color);
+}
+
+.toast.toast-success {
+  background-color: #059669;
+}
+
+/* ---------------------------------------------------------------
+   14. RESPONSIVE — MOBILE (≤ 600px)
+--------------------------------------------------------------- */
+@media (max-width: 600px) {
+  .app-header {
+    padding: var(--space-md);
+  }
+
+  .theme-label {
+    display: none;
+  }
+
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    margin: var(--space-md) auto;
+    padding: 0 var(--space-sm);
+    gap: var(--space-md);
+  }
+
+  .card-wide {
+    grid-column: 1;
+  }
+
+  .greeting-card {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .clock-section {
+    text-align: left;
+    width: 100%;
+  }
+
+  .digital-clock {
+    font-size: 2rem;
+  }
+
+  .greeting-name {
+    font-size: 1.5rem;
+  }
+
+  .timer-display {
+    font-size: 2.8rem;
+  }
+
+  .todo-input-row {
+    flex-direction: column;
+  }
+
+  .links-input-row {
+    flex-direction: column;
+  }
+
+  .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------------------------------------------------------------
+   15. RESPONSIVE — TABLET (601px – 899px)
+--------------------------------------------------------------- */
+@media (min-width: 601px) and (max-width: 899px) {
+  .dashboard-container {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+
+  .card-wide {
+    grid-column: 1;
+  }
+}
+
+/* ---------------------------------------------------------------
+   16. ACCESSIBILITY — Focus Ring
+--------------------------------------------------------------- */
+:focus-visible {
+  outline: 2.5px solid var(--accent-dark);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ---------------------------------------------------------------
+   17. SMOOTH COLOR TRANSITIONS (theme switch)
+--------------------------------------------------------------- */
+.card,
+.app-header,
+.todo-input,
+.link-input,
+.name-input,
+.sort-select,
+.custom-duration-input,
+.task-item,
+.link-badge {
+  transition:
+    background-color var(--transition),
+    border-color var(--transition),
+    color var(--transition),
+    box-shadow var(--transition);
+}

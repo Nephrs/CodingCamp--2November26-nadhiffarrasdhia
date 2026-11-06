@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="To-Do List Life Dashboard - A beautiful, aesthetic, and productive personal dashboard." />
+  <title>🌸 Life Dashboard</title>
+  <!-- AWS Builder ID Validation: Single CSS file -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- =============================================
+       HEADER BAR
+  ============================================= -->
+  <header class="app-header">
+    <div class="header-brand">
+      <span class="header-logo">🌸</span>
+      <span class="header-title">Life Dashboard</span>
+    </div>
+    <div class="header-controls">
+      <button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle dark mode">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span class="theme-label" id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- =============================================
+       MAIN DASHBOARD CONTAINER
+  ============================================= -->
+  <main class="dashboard-container">
+
+    <!-- ==========================================
+         GREETING & CLOCK CARD
+    =========================================== -->
+    <section class="card card-wide greeting-card" aria-label="Greeting and Clock">
+      <div class="greeting-section">
+        <p class="greeting-text" id="greetingText">Good Morning,</p>
+        <div class="greeting-name-wrapper">
+          <span class="greeting-name" id="greetingName">User</span>
+          <button class="edit-name-btn" id="editNameBtn" aria-label="Edit your name" title="Edit Name">✏️</button>
+        </div>
+        <!-- Inline name edit form (hidden by default) -->
+        <div class="name-edit-form hidden" id="nameEditForm">
+          <input type="text" id="nameInput" class="name-input" placeholder="Enter your name..." maxlength="30" aria-label="Your name" />
+          <button class="btn btn-primary btn-sm" id="saveNameBtn">Save</button>
+          <button class="btn btn-secondary btn-sm" id="cancelNameBtn">Cancel</button>
+        </div>
+      </div>
+      <div class="clock-section">
+        <div class="digital-clock" id="digitalClock" aria-live="polite" aria-label="Current time">00:00:00</div>
+        <div class="date-display" id="dateDisplay" aria-live="polite" aria-label="Current date">Loading date…</div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         FOCUS TIMER CARD
+    =========================================== -->
+    <section class="card focus-timer-card" aria-label="Focus Timer">
+      <div class="card-header">
+        <h2 class="card-title">⏱️ Focus Timer</h2>
+      </div>
+
+      <!-- Duration presets -->
+      <div class="timer-presets" role="group" aria-label="Timer duration presets">
+        <button class="preset-btn" data-minutes="15" aria-label="Set 15 minutes">15m</button>
+        <button class="preset-btn active" data-minutes="25" aria-label="Set 25 minutes">25m</button>
+        <button class="preset-btn" data-minutes="45" aria-label="Set 45 minutes">45m</button>
+        <div class="custom-duration-wrapper">
+          <input
+            type="number"
+            id="customDurationInput"
+            class="custom-duration-input"
+            placeholder="Custom"
+            min="1"
+            max="120"
+            aria-label="Custom timer duration in minutes"
+          />
+          <span class="custom-duration-label">min</span>
+        </div>
+      </div>
+
+      <!-- Timer display -->
+      <div class="timer-display-wrapper">
+        <div class="timer-display" id="timerDisplay" aria-live="polite" aria-label="Timer countdown">25:00</div>
+        <div class="timer-status" id="timerStatus">Ready</div>
+      </div>
+
+      <!-- Timer controls -->
+      <div class="timer-controls">
+        <button class="btn btn-primary" id="timerStartBtn" aria-label="Start timer">▶ Start</button>
+        <button class="btn btn-secondary" id="timerStopBtn" aria-label="Stop timer" disabled>⏸ Stop</button>
+        <button class="btn btn-secondary" id="timerResetBtn" aria-label="Reset timer">↺ Reset</button>
+      </div>
+
+      <!-- Timer done banner -->
+      <div class="timer-done-banner hidden" id="timerDoneBanner" role="alert" aria-live="assertive">
+        🎉 Time's up! Great work — take a break!
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TO-DO LIST CARD
+    =========================================== -->
+    <section class="card todo-card" aria-label="To-Do List">
+      <div class="card-header">
+        <h2 class="card-title">📝 To-Do List</h2>
+        <!-- Sort dropdown -->
+        <div class="sort-wrapper">
+          <label for="sortSelect" class="sort-label">Sort:</label>
+          <select id="sortSelect" class="sort-select" aria-label="Sort tasks">
+            <option value="date">Date Added</option>
+            <option value="alpha">A–Z</option>
+            <option value="status">Completion</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Add task form -->
+      <div class="todo-input-row">
+        <input
+          type="text"
+          id="todoInput"
+          class="todo-input"
+          placeholder="Add a new task…"
+          maxlength="120"
+          aria-label="New task text"
+        />
+        <button class="btn btn-primary" id="addTaskBtn" aria-label="Add task">+ Add</button>
+      </div>
+
+      <!-- Task list -->
+      <ul class="task-list" id="taskList" aria-label="Task items" role="list"></ul>
+
+      <!-- Empty state -->
+      <p class="empty-state hidden" id="todoEmptyState">No tasks yet. Add one above! 🌟</p>
+    </section>
+
+    <!-- ==========================================
+         QUICK LINKS CARD
+    =========================================== -->
+    <section class="card quick-links-card" aria-label="Quick Links">
+      <div class="card-header">
+        <h2 class="card-title">🔗 Quick Links</h2>
+      </div>
+
+      <!-- Add link form -->
+      <div class="links-input-row">
+        <input
+          type="text"
+          id="linkNameInput"
+          class="link-input"
+          placeholder="Link name…"
+          maxlength="30"
+          aria-label="Link name"
+        />
+        <input
+          type="url"
+          id="linkUrlInput"
+          class="link-input"
+          placeholder="https://…"
+          maxlength="200"
+          aria-label="Link URL"
+        />
+        <button class="btn btn-primary" id="addLinkBtn" aria-label="Add link">+ Add</button>
+      </div>
+
+      <!-- Link badges -->
+      <div class="links-container" id="linksContainer" aria-label="Quick link badges" role="list">
+        <!-- badges rendered by JS -->
+      </div>
+
+      <!-- Empty state -->
+      <p class="empty-state hidden" id="linksEmptyState">No quick links yet. Add one above! 🔗</p>
+    </section>
+
+  </main>
+
+  <!-- =============================================
+       TOAST NOTIFICATION
+  ============================================= -->
+  <div class="toast" id="toast" role="alert" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- AWS Builder ID Validation: Single JS file -->
+  <script src="js/script.js"></script>
+</body>
+</html>
